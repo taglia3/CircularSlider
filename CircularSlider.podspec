@@ -13,5 +13,5 @@ A beautiful Circular Slider A beautiful Circular Slider A beautiful Circular Sli
   s.social_media_url = 'https://twitter.com/taglia3'
   s.source_files      = 'CircularSliderExample/CircularSlider/**/*.{swift,xib}'
   s.frameworks        = 'UIKit'
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '8.2'
 end
