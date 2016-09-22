@@ -18,21 +18,21 @@ extension Float {
     
     func formatForCurrency() -> String {
         
-    let fmt = NSNumberFormatter()
-    
-    fmt.numberStyle = .DecimalStyle
-    fmt.decimalSeparator = ","
-    fmt.maximumFractionDigits = 2
-    fmt.minimumFractionDigits = 2
-    
-    let numberString = fmt.stringFromNumber(self)
-    
-    let decimalString = numberString?.substringFromIndex((numberString?.endIndex.advancedBy(-3))!)
-    let integerString = numberString?.substringToIndex((numberString?.endIndex.advancedBy(-3))!)
-    
-    let outputNumber = integerString?.stringByReplacingOccurrencesOfString(",", withString: ".")
-    
-    return outputNumber! + decimalString!
+        let fmt = NSNumberFormatter()
+        
+        fmt.numberStyle = .DecimalStyle
+        fmt.decimalSeparator = ","
+        fmt.maximumFractionDigits = 2
+        fmt.minimumFractionDigits = 2
+        
+        let numberString = fmt.stringFromNumber(self)
+        
+        let decimalString = numberString?.substringFromIndex((numberString?.endIndex.advancedBy(-3))!)
+        let integerString = numberString?.substringToIndex((numberString?.endIndex.advancedBy(-3))!)
+        
+        let outputNumber = integerString?.stringByReplacingOccurrencesOfString(",", withString: ".")
+        
+        return outputNumber! + decimalString!
     }
 }
 
@@ -71,10 +71,8 @@ extension String {
         let decimale = NSMutableAttributedString(string: decimaleString)
         
         // add attributes
-        if #available(iOS 8.2, *) {
-            intera.addAttributes([NSFontAttributeName: UIFont.systemFontOfSize(42, weight: UIFontWeightRegular)], range: NSMakeRange(0, intera.length))
-            decimale.addAttributes([NSFontAttributeName: UIFont.systemFontOfSize(42, weight: UIFontWeightThin)], range: NSMakeRange(0, decimale.length))
-        } else { }
+        intera.addAttributes([NSFontAttributeName: UIFont.systemFontOfSize(42, weight: UIFontWeightRegular)], range: NSMakeRange(0, intera.length))
+        decimale.addAttributes([NSFontAttributeName: UIFont.systemFontOfSize(42, weight: UIFontWeightThin)], range: NSMakeRange(0, decimale.length))
         
         currencyAttributeString.appendAttributedString(intera)
         currencyAttributeString.appendAttributedString(decimale)
@@ -82,5 +80,3 @@ extension String {
         return currencyAttributeString
     }
 }
-
-

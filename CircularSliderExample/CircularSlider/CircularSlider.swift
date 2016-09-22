@@ -9,13 +9,10 @@
 import Foundation
 import UIKit
 
-public enum CircularSliderType: Int {
-    case normal = 0, timer
-}
 
 @objc public protocol CircularSliderDelegate: NSObjectProtocol {
     optional func circularSlider(circularSlider: CircularSlider, valueForValue value: Float) -> Float
-//    optional func circularSlider(circularSlider: CircularSlider, attributeTextForValue value: Float) -> NSAttributedString
+    //    optional func circularSlider(circularSlider: CircularSlider, attributeTextForValue value: Float) -> NSAttributedString
     optional func circularSlider(circularSlider: CircularSlider, didBeginEditing textfield: UITextField)
     optional func circularSlider(circularSlider: CircularSlider, didEndEditing textfield: UITextField)
 }
@@ -27,12 +24,13 @@ public class CircularSlider: UIView {
     // MARK: - outlets
     @IBOutlet private weak var iconImageView: UIImageView!
     @IBOutlet private weak var iconCenterY: NSLayoutConstraint!
-    @IBOutlet private weak var timeCenterY: NSLayoutConstraint!
-    @IBOutlet private weak var normalView: UIView!
-    @IBOutlet private weak var codeView: UIView!
-    @IBOutlet private weak var timeLabel: UILabel!
+    @IBOutlet private weak var centeredView: UIView!
     @IBOutlet private weak var titleLabel: UILabel!
-    @IBOutlet private weak var textfield: UITextField!
+    @IBOutlet private weak var textfield: UITextField! {
+        didSet {
+            addDoneButtonOnKeyboard()
+        }
+    }
     @IBOutlet private weak var divisaLabel: UILabel!
     
     
@@ -46,7 +44,6 @@ public class CircularSlider: UIView {
     private var knobLayer = CAShapeLayer()
     private var backingValue: Float = 0
     private var backingKnobAngle: CGFloat = 0
-    private var backingtype: CircularSliderType = .normal
     private var startAngle: CGFloat {
         return -CGFloat(M_PI_2) + radiansOffset
     }
@@ -132,16 +129,6 @@ public class CircularSlider: UIView {
         }
     }
     @IBInspectable
-    public var type: Int {
-        get {
-            return self.backingtype.rawValue
-        }
-        set(typeIndex) {
-            self.backingtype = CircularSliderType(rawValue: typeIndex) ?? .normal
-            configureType()
-        }
-    }
-    @IBInspectable
     public var minimumValue: Float = 0
     @IBInspectable
     public var maximumValue: Float = 500
@@ -220,7 +207,6 @@ public class CircularSlider: UIView {
         progressCircleLayer.path = getCirclePath()
         knobLayer.path = getKnobPath()
         appearanceIconImageView()
-        appearanceTimeLabel()
         setValue(value, animated: false)
     }
     
@@ -277,38 +263,10 @@ public class CircularSlider: UIView {
         addGestureRecognizer(gesture)
     }
     
-    private func configureType() {
-        switch backingtype {
-        case .normal:
-            configureNormalType()
-        case .timer:
-            configureTimerType()
-        }
-    }
-    
-    private func configureNormalType() {
-        codeView.hidden = true
-        timeLabel.hidden = true
-        normalView.hidden = false
-        knobLayer.hidden = false
-        iconImageView.hidden = false
-    }
-    
-    private func configureTimerType() {
-        codeView.hidden = false
-        timeLabel.hidden = false
-        normalView.hidden = true
-        knobLayer.hidden = true
-        iconImageView.hidden = true
-    }
     
     // MARK: - appearance
     private func appearanceIconImageView() {
         iconCenterY.constant = arcRadius
-    }
-    
-    private func appearanceTimeLabel() {
-        timeCenterY.constant = arcRadius
     }
     
     private func appearanceBackgroundLayer() {
@@ -357,9 +315,9 @@ public class CircularSlider: UIView {
         CATransaction.setDisableActions(true)
         
         let strokeAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        strokeAnimation.duration = animated ? 0.33 : 0
+        strokeAnimation.duration = animated ? 0.66 : 0
         strokeAnimation.repeatCount = 1
-        strokeAnimation.fromValue = progressCircleLayer.presentationLayer()?.strokeEnd ?? progressCircleLayer.strokeEnd
+        strokeAnimation.fromValue = progressCircleLayer.strokeEnd
         strokeAnimation.toValue = CGFloat(normalizedValue)
         strokeAnimation.removedOnCompletion = false
         strokeAnimation.fillMode = kCAFillModeRemoved
@@ -368,61 +326,34 @@ public class CircularSlider: UIView {
         progressCircleLayer.strokeEnd = CGFloat(normalizedValue)
         CATransaction.commit()
     }
-
+    
     private func setKnobRotation(animated animated: Bool) {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         
-        let c: CGFloat = progressCircleLayer.presentationLayer()?.strokeEnd ?? backingKnobAngle
-//        print(c)
-            let n = c * angleRange + startAngle
-          print(n)
+        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+        animation.duration = animated ? 0.66 : 0
+        animation.values = [backingKnobAngle, knobAngle]
+        knobLayer.addAnimation(animation, forKey: "knobRotationAnimation")
+        knobLayer.transform = knobRotationTransform
         
-        
-        
-        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotationAnimation.duration =  0
-        rotationAnimation.repeatCount = 1
-        rotationAnimation.fromValue = n
-        rotationAnimation.toValue = CGFloat(knobAngle)
-//        rotationAnimation.removedOnCompletion = false
-//        rotationAnimation.fillMode = kCAFillModeRemoved
-        rotationAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        knobLayer.addAnimation(rotationAnimation, forKey: "knobRotationAnimation")
-            knobLayer.transform = knobRotationTransform
-        CATransaction.commit()
-            backingKnobAngle = knobAngle
-            
-        
-//        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-//        animation.duration = animated ? 0.66 : 0
-//        animation.values = [backingKnobAngle, knobAngle]
-//        knobLayer.addAnimation(animation, forKey: "knobRotationAnimation")
-//        knobLayer.transform = knobRotationTransform
         CATransaction.commit()
         
-//        backingKnobAngle = knobAngle
-            
-        
+        backingKnobAngle = knobAngle
     }
     
     private func updateLabels() {
         updateValueLabel()
-        updateTimeLabel()
     }
     
     private func updateValueLabel() {
         textfield.attributedText = value.formatForCurrency().sliderAttributeString(intFont: intFont, decimalFont: decimalFont)
     }
     
-    private func updateTimeLabel() {
-        timeLabel.text = "\(Int(value)) min"
-    }
-    
     
     // MARK: - gesture handler
     @objc private func handleRotationGesture(sender: AnyObject) {
-        guard let gesture = sender as? RotationGestureRecognizer where backingtype == .normal else { return }
+        guard let gesture = sender as? RotationGestureRecognizer else { return }
         
         if gesture.state == UIGestureRecognizerState.Began {
             cancelAnimation()
@@ -440,19 +371,38 @@ public class CircularSlider: UIView {
         
         let valueForAngle = Float(rotationAngle - startAngle) / Float(angleRange) * valueRange + minimumValue
         setValue(valueForAngle, animated: false)
-        
-        if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
-            // isPanning -> false
-        }
     }
     
     func cancelAnimation() {
         progressCircleLayer.removeAllAnimations()
         knobLayer.removeAllAnimations()
     }
+    
+    
+    // MARK:- methods
+    public override func becomeFirstResponder() -> Bool {
+        return textfield.becomeFirstResponder()
+    }
+    
+    public override func resignFirstResponder() -> Bool {
+        return textfield.resignFirstResponder()
+    }
+    
+    private func addDoneButtonOnKeyboard() {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let doneButton: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: #selector(resignFirstResponder))
+        
+        doneToolbar.barStyle = UIBarStyle.Default
+        doneToolbar.items = [flexSpace, doneButton]
+        doneToolbar.sizeToFit()
+        
+        textfield.inputAccessoryView = doneToolbar
+    }
 }
 
 
+// MARK: - UITextFieldDelegate
 extension CircularSlider: UITextFieldDelegate {
     
     public func textFieldDidBeginEditing(textField: UITextField) {

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -17,63 +18,125 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hGd-WS-3bq">
-                                <rect key="frame" x="109" y="574" width="46" height="30"/>
-                                <state key="normal" title="-"/>
-                                <connections>
-                                    <action selector="decrementAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xys-GP-ApY"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1N-Ny-JJb">
-                                <rect key="frame" x="214" y="574" width="46" height="30"/>
-                                <state key="normal" title="+"/>
-                                <connections>
-                                    <action selector="incrementAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bDs-sF-Rtq"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pib-uS-Xzq" customClass="CircularSlider" customModule="CircularSliderExample" customModuleProvider="target">
-                                <rect key="frame" x="63" y="172" width="281" height="324"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="radiansOffset">
-                                        <real key="value" value="0.29999999999999999"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="image" keyPath="icon" value="icon_orologio_big"/>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="pgNormalColor">
-                                        <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="value">
-                                        <real key="value" value="150"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="minimumValue">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="maximumValue">
-                                        <real key="value" value="500"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="highlighted" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="type">
-                                        <integer key="value" value="0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Sozzi"/>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="divisa" value="€"/>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="pgHighlightedColor">
-                                        <color key="value" red="0.1450980392" green="0.53725490200000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="knobRadius">
-                                        <real key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sAz-tF-hMF">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jso-mv-lbt" userLabel="Container View">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroundImageWater" translatesAutoresizingMaskIntoConstraints="NO" id="IW0-pn-SaO">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pib-uS-Xzq" customClass="CircularSlider" customModule="CircularSliderExample" customModuleProvider="target">
+                                                <rect key="frame" x="50" y="196" width="275" height="274.5"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="Pib-uS-Xzq" secondAttribute="height" multiplier="1:1" id="58g-Ay-598"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="radiansOffset">
+                                                        <real key="value" value="0.29999999999999999"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="image" keyPath="icon" value="iconWater"/>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="pgNormalColor">
+                                                        <color key="value" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                                        <real key="value" value="5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="value">
+                                                        <real key="value" value="150"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="minimumValue">
+                                                        <real key="value" value="0.0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="maximumValue">
+                                                        <real key="value" value="500"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="highlighted" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="type">
+                                                        <integer key="value" value="0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Capacity"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="divisa" value="l"/>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="pgHighlightedColor">
+                                                        <color key="value" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="knobRadius">
+                                                        <real key="value" value="20"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="bgColor">
+                                                        <color key="value" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hGd-WS-3bq">
+                                                <rect key="frame" x="100" y="510" width="30" height="30"/>
+                                                <state key="normal" title="-"/>
+                                                <connections>
+                                                    <action selector="decrementAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xys-GP-ApY"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1N-Ny-JJb">
+                                                <rect key="frame" x="245" y="510" width="30" height="30"/>
+                                                <state key="normal" title="+"/>
+                                                <connections>
+                                                    <action selector="incrementAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bDs-sF-Rtq"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="IW0-pn-SaO" secondAttribute="trailing" id="0Tz-IO-9dS"/>
+                                            <constraint firstAttribute="trailing" secondItem="Pib-uS-Xzq" secondAttribute="trailing" constant="50" id="1H4-2M-E4t"/>
+                                            <constraint firstItem="IW0-pn-SaO" firstAttribute="top" secondItem="Jso-mv-lbt" secondAttribute="top" id="Bzn-7D-K8a"/>
+                                            <constraint firstItem="Pib-uS-Xzq" firstAttribute="leading" secondItem="Jso-mv-lbt" secondAttribute="leading" constant="50" id="Mvq-5d-1FK"/>
+                                            <constraint firstAttribute="trailing" secondItem="l1N-Ny-JJb" secondAttribute="trailing" constant="100" id="W3D-pk-epv"/>
+                                            <constraint firstAttribute="height" constant="800" id="YCQ-Yh-SrY"/>
+                                            <constraint firstItem="Pib-uS-Xzq" firstAttribute="centerY" secondItem="Jso-mv-lbt" secondAttribute="centerY" id="fyQ-Sv-FxK"/>
+                                            <constraint firstItem="hGd-WS-3bq" firstAttribute="top" secondItem="Pib-uS-Xzq" secondAttribute="bottom" constant="40" id="jOU-57-KGz"/>
+                                            <constraint firstItem="hGd-WS-3bq" firstAttribute="leading" secondItem="Jso-mv-lbt" secondAttribute="leading" constant="100" id="sFY-Lc-0X8"/>
+                                            <constraint firstAttribute="bottom" secondItem="IW0-pn-SaO" secondAttribute="bottom" id="vZT-Sv-8Gp"/>
+                                            <constraint firstItem="l1N-Ny-JJb" firstAttribute="centerY" secondItem="hGd-WS-3bq" secondAttribute="centerY" id="vut-Yq-prh"/>
+                                            <constraint firstItem="IW0-pn-SaO" firstAttribute="leading" secondItem="Jso-mv-lbt" secondAttribute="leading" id="wKm-K3-yvJ"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="YCQ-Yh-SrY"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Jso-mv-lbt" firstAttribute="top" secondItem="sAz-tF-hMF" secondAttribute="top" id="1Ey-Mk-haz"/>
+                                    <constraint firstAttribute="bottom" secondItem="Jso-mv-lbt" secondAttribute="bottom" id="SJr-ee-Y4d"/>
+                                    <constraint firstAttribute="trailing" secondItem="Jso-mv-lbt" secondAttribute="trailing" id="dC7-LQ-Dnp"/>
+                                    <constraint firstItem="Jso-mv-lbt" firstAttribute="leading" secondItem="sAz-tF-hMF" secondAttribute="leading" id="vr2-fA-8ZG"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="sAz-tF-hMF" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="4Cf-Ni-k2w"/>
+                            <constraint firstItem="sAz-tF-hMF" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="6OH-gE-o62"/>
+                            <constraint firstItem="Jso-mv-lbt" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="DhK-F6-XIC"/>
+                            <constraint firstItem="Jso-mv-lbt" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="FAX-dw-znh"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="sAz-tF-hMF" secondAttribute="bottom" id="GOx-b5-NCM"/>
+                            <constraint firstItem="sAz-tF-hMF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="KVs-Kk-2C0"/>
+                            <constraint firstAttribute="trailing" secondItem="sAz-tF-hMF" secondAttribute="trailing" id="fHt-ft-R9C"/>
+                            <constraint firstItem="Jso-mv-lbt" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="pLa-Jo-Khu"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="DhK-F6-XIC"/>
+                                <exclude reference="4Cf-Ni-k2w"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="circularSlider" destination="Pib-uS-Xzq" id="Gld-qc-h0q"/>
+                        <outlet property="scrollView" destination="sAz-tF-hMF" id="QH8-4a-H4K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -82,6 +145,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_orologio_big" width="200" height="200"/>
+        <image name="backgroundImageWater" width="459" height="377"/>
+        <image name="iconWater" width="64" height="64"/>
     </resources>
 </document>

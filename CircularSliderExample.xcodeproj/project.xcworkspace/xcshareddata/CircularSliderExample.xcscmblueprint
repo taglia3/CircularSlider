@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "A97BCD4D9077BB58CE2DB3822EC4251C207AA603",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "A97BCD4D9077BB58CE2DB3822EC4251C207AA603" : 0,
+    "7C3A4AEFEDD0762D88A92D12BBBA3C842106F9B0" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C7AE6FAC-651D-471C-92F9-72491FDF2296",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "A97BCD4D9077BB58CE2DB3822EC4251C207AA603" : "CircularSliderExample\/",
+    "7C3A4AEFEDD0762D88A92D12BBBA3C842106F9B0" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "CircularSliderExample",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CircularSliderExample.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/taglia3\/CircularSpinner.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7C3A4AEFEDD0762D88A92D12BBBA3C842106F9B0"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/taglia3\/CircularSlider.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A97BCD4D9077BB58CE2DB3822EC4251C207AA603"
+    }
+  ]
+}
