@@ -357,9 +357,9 @@ public class CircularSlider: UIView {
         CATransaction.setDisableActions(true)
         
         let strokeAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        strokeAnimation.duration = animated ? 0.66 : 0
+        strokeAnimation.duration = animated ? 0.33 : 0
         strokeAnimation.repeatCount = 1
-        strokeAnimation.fromValue = progressCircleLayer.strokeEnd
+        strokeAnimation.fromValue = progressCircleLayer.presentationLayer()?.strokeEnd ?? progressCircleLayer.strokeEnd
         strokeAnimation.toValue = CGFloat(normalizedValue)
         strokeAnimation.removedOnCompletion = false
         strokeAnimation.fillMode = kCAFillModeRemoved
@@ -373,13 +373,37 @@ public class CircularSlider: UIView {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         
-        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        animation.duration = animated ? 0.66 : 0
-        animation.values = [backingKnobAngle, knobAngle]
-        knobLayer.addAnimation(animation, forKey: "knobRotationAnimation")
-        knobLayer.transform = knobRotationTransform
+        let c: CGFloat = progressCircleLayer.presentationLayer()?.strokeEnd ?? backingKnobAngle
+//        print(c)
+            let n = c * angleRange + startAngle
+          print(n)
+        
+        
+        
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotationAnimation.duration =  0
+        rotationAnimation.repeatCount = 1
+        rotationAnimation.fromValue = n
+        rotationAnimation.toValue = CGFloat(knobAngle)
+//        rotationAnimation.removedOnCompletion = false
+//        rotationAnimation.fillMode = kCAFillModeRemoved
+        rotationAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        knobLayer.addAnimation(rotationAnimation, forKey: "knobRotationAnimation")
+            knobLayer.transform = knobRotationTransform
         CATransaction.commit()
-        backingKnobAngle = knobAngle
+            backingKnobAngle = knobAngle
+            
+        
+//        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+//        animation.duration = animated ? 0.66 : 0
+//        animation.values = [backingKnobAngle, knobAngle]
+//        knobLayer.addAnimation(animation, forKey: "knobRotationAnimation")
+//        knobLayer.transform = knobRotationTransform
+        CATransaction.commit()
+        
+//        backingKnobAngle = knobAngle
+            
+        
     }
     
     private func updateLabels() {
