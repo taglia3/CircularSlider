@@ -34,7 +34,7 @@ Example: you want only rounded values:
 
 ```swift
 func circularSlider(circularSlider: CircularSlider, valueForValue value: Float) -> Float {
-return Float(Int(value))
+return floorf(value)
 }
 ```
 
