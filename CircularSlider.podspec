@@ -1,11 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = 'CircularSlider'
-  s.version          = ‘0.2’
+  s.version          = '0.2'
   s.summary          = 'A powerful Circular Slider'
   s.description      = <<-DESC
 A powerful Circular Slider. It's written in Swift, it's 100% IBDesignable and all parameters are IBInspectable.
                        DESC
-
   s.homepage         = 'https://github.com/taglia3/CircularSlider'
   s.license          = 'MIT'
   s.author           = { "taglia3" => "the.taglia3@gmail.com" }
