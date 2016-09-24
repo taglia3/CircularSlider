@@ -1,24 +1,78 @@
 //
 //  ViewController.swift
-//  CircularSlider
+//  CircularSliderExample
 //
-//  Created by Matteo Tagliafico on 09/24/2016.
-//  Copyright (c) 2016 Matteo Tagliafico. All rights reserved.
+//  Created by Matteo Tagliafico on 02/09/16.
+//  Copyright © 2016 Matteo Tagliafico. All rights reserved.
 //
 
 import UIKit
+import CircularSlider
 
 class ViewController: UIViewController {
-
+    
+    // MARK: - outlets
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var circularSlider: CircularSlider!
+    
+    
+    // MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        circularSlider.delegate = self
+        registerForKeyboardNotifications()
+        setupTapGesture()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    
+    // MARK: - methods
+    func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
-
+    
+    
+    // MARK: - keyboard handler
+    private func registerForKeyboardNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil )
+    }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        adjustInsetForKeyboardShow(true, notification: notification)
+    }
+    
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        adjustInsetForKeyboardShow(false, notification: notification)
+    }
+    
+    private func adjustInsetForKeyboardShow(show: Bool, notification: NSNotification) {
+        guard let value = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = value.CGRectValue()
+        let adjustmentHeight = (CGRectGetHeight(keyboardFrame) + 150) * (show ? 1 : -1)
+        scrollView.contentInset.bottom += adjustmentHeight
+        scrollView.scrollIndicatorInsets.bottom += adjustmentHeight
+    }
+    
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
+    
+    // MARK: - actions
+    @IBAction func decrementAction(sender: UIButton) {
+        circularSlider.setValue(circularSlider.value - 50, animated: true)
+    }
+    
+    @IBAction func incrementAction(sender: UIButton) {
+        circularSlider.setValue(circularSlider.value + 50, animated: true)
+    }
 }
 
+
+// MARK: - CircularSliderDelegate
+extension ViewController: CircularSliderDelegate {
+    func circularSlider(circularSlider: CircularSlider, valueForValue value: Float) -> Float {
+        return floorf(value)
+    }
+}
