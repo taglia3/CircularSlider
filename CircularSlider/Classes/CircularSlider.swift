@@ -14,7 +14,7 @@ import UIKit
     @objc optional func circularSlider(_ circularSlider: CircularSlider, valueForValue value: Float) -> Float
     @objc optional func circularSlider(_ circularSlider: CircularSlider, didBeginEditing textfield: UITextField)
     @objc optional func circularSlider(_ circularSlider: CircularSlider, didEndEditing textfield: UITextField)
-//  optional func circularSlider(circularSlider: CircularSlider, attributeTextForValue value: Float) -> NSAttributedString
+    //  optional func circularSlider(circularSlider: CircularSlider, attributeTextForValue value: Float) -> NSAttributedString
 }
 
 
@@ -44,6 +44,7 @@ open class CircularSlider: UIView {
     fileprivate var knobLayer = CAShapeLayer()
     fileprivate var backingValue: Float = 0
     fileprivate var backingKnobAngle: CGFloat = 0
+    fileprivate var rotationGesture: RotationGestureRecognizer?
     fileprivate var startAngle: CGFloat {
         return -CGFloat(M_PI_2) + radiansOffset
     }
@@ -199,6 +200,8 @@ open class CircularSlider: UIView {
         progressCircleLayer.position = arcCenter
         knobLayer.position = arcCenter
         
+        rotationGesture?.arcRadius = arcRadius
+        
         backgroundCircleLayer.path = getCirclePath()
         progressCircleLayer.path = getCirclePath()
         knobLayer.path = getKnobPath()
@@ -225,6 +228,7 @@ open class CircularSlider: UIView {
     
     // MARK: - configure
     fileprivate func configure() {
+        //        layoutIfNeeded()
         clipsToBounds = false
         configureBackgroundLayer()
         configureProgressLayer()
@@ -259,8 +263,8 @@ open class CircularSlider: UIView {
     }
     
     fileprivate func configureGesture() {
-        let gesture = RotationGestureRecognizer(target: self, action: #selector(handleRotationGesture(_:)), arcRadius: arcRadius, knobRadius:  knobRadius)
-        addGestureRecognizer(gesture)
+        rotationGesture = RotationGestureRecognizer(target: self, action: #selector(handleRotationGesture(_:)), arcRadius: arcRadius, knobRadius:  knobRadius)
+        addGestureRecognizer(rotationGesture!)
     }
     
     fileprivate func configureFont() {

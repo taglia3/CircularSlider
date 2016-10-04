@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -19,17 +20,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sAz-tF-hMF">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jso-mv-lbt" userLabel="Container View">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroundImageWater" translatesAutoresizingMaskIntoConstraints="NO" id="IW0-pn-SaO">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroundImageWater" translatesAutoresizingMaskIntoConstraints="NO" id="IW0-pn-SaO"/>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pib-uS-Xzq" customClass="CircularSlider" customModule="CircularSlider">
-                                                <rect key="frame" x="50" y="196" width="275" height="274.5"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Pib-uS-Xzq" secondAttribute="height" multiplier="1:1" id="58g-Ay-598"/>
                                                 </constraints>
@@ -39,7 +35,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="image" keyPath="icon" value="iconWater"/>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="pgNormalColor">
-                                                        <color key="value" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="value" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
                                                         <real key="value" value="5"/>
@@ -60,32 +56,30 @@
                                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Capacity"/>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="divisa" value="l"/>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="pgHighlightedColor">
-                                                        <color key="value" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="value" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="knobRadius">
                                                         <real key="value" value="20"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="bgColor">
-                                                        <color key="value" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="value" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hGd-WS-3bq">
-                                                <rect key="frame" x="100" y="510" width="30" height="30"/>
                                                 <state key="normal" title="-"/>
                                                 <connections>
                                                     <action selector="decrementAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xys-GP-ApY"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1N-Ny-JJb">
-                                                <rect key="frame" x="245" y="510" width="30" height="30"/>
                                                 <state key="normal" title="+"/>
                                                 <connections>
                                                     <action selector="incrementAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bDs-sF-Rtq"/>
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="IW0-pn-SaO" secondAttribute="trailing" id="0Tz-IO-9dS"/>
                                             <constraint firstAttribute="trailing" secondItem="Pib-uS-Xzq" secondAttribute="trailing" constant="50" id="1H4-2M-E4t"/>
@@ -115,7 +109,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="sAz-tF-hMF" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="4Cf-Ni-k2w"/>
                             <constraint firstItem="sAz-tF-hMF" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="6OH-gE-o62"/>
@@ -133,7 +127,6 @@
                             </mask>
                         </variation>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="circularSlider" destination="Pib-uS-Xzq" id="Gld-qc-h0q"/>
                         <outlet property="scrollView" destination="sAz-tF-hMF" id="QH8-4a-H4K"/>

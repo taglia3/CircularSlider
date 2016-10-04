@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CircularSlider" customModule="CircularSliderExample" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CircularSlider" customModule="CircularSlider" customModuleProvider="target">
             <connections>
                 <outlet property="centeredView" destination="TOl-lf-2Rr" id="9xf-eq-45f"/>
                 <outlet property="divisaLabel" destination="6JM-fe-ic7" id="2uW-TT-jwC"/>
@@ -22,31 +23,28 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B0H-VT-YPT">
-                    <rect key="frame" x="140" y="-10" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="6vX-Dq-IXj"/>
                         <constraint firstAttribute="width" secondItem="B0H-VT-YPT" secondAttribute="height" multiplier="1:1" id="xL6-Wz-utF"/>
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TOl-lf-2Rr" userLabel="Center View">
-                    <rect key="frame" x="30" y="116.5" width="260" height="87"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lbn-0y-dio">
-                            <rect key="frame" x="95" y="0.0" width="69.5" height="36"/>
                             <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
-                            <color key="textColor" red="0.43529411764705883" green="0.43529411764705883" blue="0.43529411764705883" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.43529411764705883" green="0.43529411764705883" blue="0.43529411764705883" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oxz-sc-6OG" userLabel="Centered View">
-                            <rect key="frame" x="50" y="38" width="159.5" height="48"/>
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oxz-sc-6OG" userLabel="Centered View">
+                            <frame key="frameInset" minX="50" minY="38" width="159.5" height="48"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="20,00" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZBy-16-9Op">
-                                    <rect key="frame" x="20" y="0.0" width="111" height="48"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="20,00" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZBy-16-9Op">
+                                    <frame key="frameInset" minX="20" width="111" height="48"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="KRF-FF-zcp"/>
                                     </constraints>
-                                    <color key="textColor" red="0.43529411759999997" green="0.43529411759999997" blue="0.43529411759999997" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" red="0.43529411759999997" green="0.43529411759999997" blue="0.43529411759999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="40"/>
                                     <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad"/>
                                     <variation key="default">
@@ -58,14 +56,14 @@
                                         <outlet property="delegate" destination="-1" id="nyW-nn-ScH"/>
                                     </connections>
                                 </textField>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="€" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6JM-fe-ic7">
-                                    <rect key="frame" x="139" y="12" width="16.5" height="32.5"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="€" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6JM-fe-ic7">
+                                    <frame key="frameInset" minX="139" minY="12" width="16.5" height="32.5"/>
                                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="27"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="6JM-fe-ic7" firstAttribute="baseline" secondItem="ZBy-16-9Op" secondAttribute="baseline" id="0SX-22-ihX"/>
                                 <constraint firstItem="ZBy-16-9Op" firstAttribute="top" secondItem="Oxz-sc-6OG" secondAttribute="top" id="9Pk-gf-B7g"/>
@@ -82,8 +80,7 @@
                             </variation>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q9X-Rc-puM" userLabel="Line View">
-                            <rect key="frame" x="0.0" y="86" width="260" height="1"/>
-                            <color key="backgroundColor" red="0.43529411759999997" green="0.43529411759999997" blue="0.43529411759999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.43529411759999997" green="0.43529411759999997" blue="0.43529411759999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="DfT-eL-1Ua"/>
                                 <constraint firstAttribute="width" priority="750" constant="190" id="cSe-QP-Wgg"/>
@@ -97,7 +94,7 @@
                             </variation>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="q9X-Rc-puM" firstAttribute="top" secondItem="Oxz-sc-6OG" secondAttribute="bottom" id="3mz-Wj-4Jg"/>
                         <constraint firstItem="q9X-Rc-puM" firstAttribute="centerX" secondItem="TOl-lf-2Rr" secondAttribute="centerX" id="41U-at-Yc3"/>
@@ -117,7 +114,7 @@
                     </variation>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="B0H-VT-YPT" secondAttribute="centerY" constant="150" id="AWc-qZ-5Cv"/>
                 <constraint firstItem="TOl-lf-2Rr" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="XI9-Qt-sCG"/>

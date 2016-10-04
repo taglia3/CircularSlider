@@ -11,8 +11,8 @@ import UIKit.UIGestureRecognizerSubclass
 open class RotationGestureRecognizer: UIPanGestureRecognizer {
     
     // MARK: - properties
+    var arcRadius: CGFloat = 100
     fileprivate var valid = false
-    fileprivate var arcRadius: CGFloat = 100
     fileprivate var knobRadius: CGFloat = 10
     
     open var rotation: CGFloat = 0
@@ -50,6 +50,7 @@ open class RotationGestureRecognizer: UIPanGestureRecognizer {
     
     func updateRotationWithTouches(_ touches: Set<NSObject>) {
         if let touch = touches[touches.startIndex] as? UITouch {
+            print(rotation)
             rotation = rotationForLocation(touch.location(in: view))
         }
     }
