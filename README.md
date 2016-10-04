@@ -10,8 +10,16 @@ A powerful Circular Slider. It's written in Swift, it's 100% IBDesignable and al
 CircularSlider is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
+Swift 3:
+
 ```ruby
 pod 'CircularSlider'
+```
+
+Swift 2.2:
+
+```ruby
+pod 'CircularSlider' ', '~> 0.2'
 ```
 
 # Usage
