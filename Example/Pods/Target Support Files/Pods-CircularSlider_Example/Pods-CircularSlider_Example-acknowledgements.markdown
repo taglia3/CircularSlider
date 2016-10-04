@@ -3,7 +3,7 @@ This application makes use of the following third party libraries:
 
 ## CircularSlider
 
-Copyright (c) 2016 Matteo Tagliafico <m.tagliafico@reply.it>
+Copyright (c) 2016 Matteo Tagliafico <matteo.tagliafico@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

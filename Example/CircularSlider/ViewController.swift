@@ -33,38 +33,38 @@ class ViewController: UIViewController {
     
     
     // MARK: - keyboard handler
-    private func registerForKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil )
+    fileprivate func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil )
     }
     
-    @objc private func keyboardWillShow(notification: NSNotification) {
+    @objc fileprivate func keyboardWillShow(_ notification: Notification) {
         adjustInsetForKeyboardShow(true, notification: notification)
     }
     
-    @objc private func keyboardWillHide(notification: NSNotification) {
+    @objc fileprivate func keyboardWillHide(_ notification: Notification) {
         adjustInsetForKeyboardShow(false, notification: notification)
     }
     
-    private func adjustInsetForKeyboardShow(show: Bool, notification: NSNotification) {
-        guard let value = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue else { return }
-        let keyboardFrame = value.CGRectValue()
-        let adjustmentHeight = (CGRectGetHeight(keyboardFrame) + 150) * (show ? 1 : -1)
+    fileprivate func adjustInsetForKeyboardShow(_ show: Bool, notification: Notification) {
+        guard let value = (notification as NSNotification).userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = value.cgRectValue
+        let adjustmentHeight = (keyboardFrame.height + 150) * (show ? 1 : -1)
         scrollView.contentInset.bottom += adjustmentHeight
         scrollView.scrollIndicatorInsets.bottom += adjustmentHeight
     }
     
-    @objc private func hideKeyboard() {
+    @objc fileprivate func hideKeyboard() {
         view.endEditing(true)
     }
     
     
     // MARK: - actions
-    @IBAction func decrementAction(sender: UIButton) {
+    @IBAction func decrementAction(_ sender: UIButton) {
         circularSlider.setValue(circularSlider.value - 50, animated: true)
     }
     
-    @IBAction func incrementAction(sender: UIButton) {
+    @IBAction func incrementAction(_ sender: UIButton) {
         circularSlider.setValue(circularSlider.value + 50, animated: true)
     }
 }
@@ -72,7 +72,7 @@ class ViewController: UIViewController {
 
 // MARK: - CircularSliderDelegate
 extension ViewController: CircularSliderDelegate {
-    func circularSlider(circularSlider: CircularSlider, valueForValue value: Float) -> Float {
+    func circularSlider(_ circularSlider: CircularSlider, valueForValue value: Float) -> Float {
         return floorf(value)
     }
 }

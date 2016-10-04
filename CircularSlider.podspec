@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CircularSlider'
-  s.version          = '0.2'
+  s.version          = '1.0.0'
   s.summary          = 'A powerful Circular Slider'
   s.description      = <<-DESC
 A powerful Circular Slider. It's written in Swift, it's 100% IBDesignable and all parameters are IBInspectable.
@@ -12,5 +12,5 @@ A powerful Circular Slider. It's written in Swift, it's 100% IBDesignable and al
   s.social_media_url = 'https://twitter.com/taglia3'
   s.source_files     = 'CircularSlider/Classes/**/*'
   s.frameworks	      = 'UIKit'
-  s.ios.deployment_target = '8.2'
+  s.ios.deployment_target = '8.0'
 end

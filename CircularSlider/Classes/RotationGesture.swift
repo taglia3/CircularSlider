@@ -8,15 +8,15 @@
 
 import UIKit.UIGestureRecognizerSubclass
 
-public class RotationGestureRecognizer: UIPanGestureRecognizer {
+open class RotationGestureRecognizer: UIPanGestureRecognizer {
     
     // MARK: - properties
-    private var valid = false
-    private var arcRadius: CGFloat = 100
-    private var knobRadius: CGFloat = 10
+    fileprivate var valid = false
+    fileprivate var arcRadius: CGFloat = 100
+    fileprivate var knobRadius: CGFloat = 10
     
-    public var rotation: CGFloat = 0
-    public var tollerance: CGFloat = 0.5
+    open var rotation: CGFloat = 0
+    open var tollerance: CGFloat = 0.5
     
     
     // MARK: - init
@@ -27,8 +27,8 @@ public class RotationGestureRecognizer: UIPanGestureRecognizer {
         configure()
     }
     
-    override public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
-        super.touchesBegan(touches, withEvent: event)
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesBegan(touches, with: event)
         
         if isInsideRing(touches) {
             valid = true
@@ -39,8 +39,8 @@ public class RotationGestureRecognizer: UIPanGestureRecognizer {
         }
     }
     
-    override public func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
-        super.touchesMoved(touches, withEvent: event)
+    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesMoved(touches, with: event)
         guard valid == true else {
             cancel()
             return
@@ -48,23 +48,23 @@ public class RotationGestureRecognizer: UIPanGestureRecognizer {
         updateRotationWithTouches(touches)
     }
     
-    func updateRotationWithTouches(touches: Set<NSObject>) {
+    func updateRotationWithTouches(_ touches: Set<NSObject>) {
         if let touch = touches[touches.startIndex] as? UITouch {
-            rotation = rotationForLocation(touch.locationInView(view))
+            rotation = rotationForLocation(touch.location(in: view))
         }
     }
     
     
     // MARK: - methods
-    private func configure() {
+    fileprivate func configure() {
         minimumNumberOfTouches = 1
         maximumNumberOfTouches = 1
         cancelsTouchesInView = false
     }
     
-    private func isInsideRing(touches: Set<NSObject>) -> Bool{
+    fileprivate func isInsideRing(_ touches: Set<NSObject>) -> Bool{
         guard let touch = touches[touches.startIndex] as? UITouch else { return false }
-        let location = touch.locationInView(view)
+        let location = touch.location(in: view)
         
         let outerRadius = arcRadius + knobRadius * (1 + tollerance)
         let innerRadius = arcRadius - knobRadius * (1 + tollerance)
@@ -74,13 +74,13 @@ public class RotationGestureRecognizer: UIPanGestureRecognizer {
         return dist <= outerRadius && dist >= innerRadius
     }
     
-    private func rotationForLocation(location: CGPoint) -> CGFloat {
+    fileprivate func rotationForLocation(_ location: CGPoint) -> CGFloat {
         let offset = CGPoint(x: location.x - view!.bounds.midX, y: location.y - view!.bounds.midY)
         return atan2(offset.y, offset.x)
     }
     
     func cancel() {
-        enabled = false
-        enabled = true
+        isEnabled = false
+        isEnabled = true
     }
 }
