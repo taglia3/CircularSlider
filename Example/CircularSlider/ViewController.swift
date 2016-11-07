@@ -19,14 +19,18 @@ class ViewController: UIViewController {
     // MARK: - view lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        circularSlider.delegate = self
+        setupCircularSlider()
         registerForKeyboardNotifications()
         setupTapGesture()
     }
     
     
     // MARK: - methods
-    func setupTapGesture() {
+    fileprivate func setupCircularSlider() {
+        circularSlider.delegate = self
+    }
+    
+    fileprivate func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
     }

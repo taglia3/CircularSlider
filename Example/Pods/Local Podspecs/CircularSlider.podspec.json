@@ -1,6 +1,6 @@
 {
   "name": "CircularSlider",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "summary": "A powerful Circular Slider",
   "description": "A powerful Circular Slider. It's written in Swift, it's 100% IBDesignable and all parameters are IBInspectable.",
   "homepage": "https://github.com/taglia3/CircularSlider",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/taglia3/CircularSlider.git",
-    "tag": "1.0.0"
+    "tag": "1.1.0"
   },
   "social_media_url": "https://twitter.com/taglia3",
   "source_files": "CircularSlider/Classes/**/*",

@@ -45,6 +45,8 @@ open class CircularSlider: UIView {
     fileprivate var backingValue: Float = 0
     fileprivate var backingKnobAngle: CGFloat = 0
     fileprivate var rotationGesture: RotationGestureRecognizer?
+    fileprivate var backingFractionDigits: NSInteger = 2
+    fileprivate let maxFractionDigits: NSInteger = 4
     fileprivate var startAngle: CGFloat {
         return -CGFloat(M_PI_2) + radiansOffset
     }
@@ -75,14 +77,10 @@ open class CircularSlider: UIView {
     fileprivate var knobRotationTransform: CATransform3D {
         return CATransform3DMakeRotation(knobAngle, 0.0, 0.0, 1)
     }
-    fileprivate var numberOfDecimalDigits = 2 {
-        didSet {
-            appearanceValue()
-        }
-    }
     fileprivate var intFont = UIFont.systemFont(ofSize: 42)
     fileprivate var decimalFont = UIFont.systemFont(ofSize: 42)
     fileprivate var divisaFont = UIFont.systemFont(ofSize: 26)
+    
     
     @IBInspectable
     open var title: String = "Title" {
@@ -159,6 +157,15 @@ open class CircularSlider: UIView {
             appearanceKnobLayer()
         }
     }
+    @IBInspectable
+    open var fractionDigits: NSInteger {
+        get {
+            return backingFractionDigits
+        }
+        set {
+            backingFractionDigits = min(maxFractionDigits, max(0, newValue))
+        }
+    }
     
     
     // MARK: - init
@@ -228,7 +235,6 @@ open class CircularSlider: UIView {
     
     // MARK: - configure
     fileprivate func configure() {
-        //        layoutIfNeeded()
         clipsToBounds = false
         configureBackgroundLayer()
         configureProgressLayer()
@@ -306,9 +312,6 @@ open class CircularSlider: UIView {
         divisaLabel.font = divisaFont
     }
     
-    fileprivate func appearanceValue() {
-        
-    }
     
     // MARK: - update
     open func setValue(_ value: Float, animated: Bool) {
@@ -358,7 +361,7 @@ open class CircularSlider: UIView {
     }
     
     fileprivate func updateValueLabel() {
-        textfield.attributedText = value.formatForCurrency().sliderAttributeString(intFont: intFont, decimalFont: decimalFont)
+        textfield.attributedText = value.formatWithFractionDigits(fractionDigits).sliderAttributeString(intFont: intFont, decimalFont: decimalFont)
     }
     
     
@@ -423,10 +426,44 @@ extension CircularSlider: UITextFieldDelegate {
     public func textFieldDidEndEditing(_ textField: UITextField) {
         delegate?.circularSlider?(self, didEndEditing: textfield)
         layoutIfNeeded()
-        setValue(textfield.text!.toFloat(nil), animated: true)
+        setValue(textfield.text!.toFloat(), animated: true)
     }
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return true
+        
+        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        
+        if newString.characters.count > 0 {
+            
+            let scanner: Scanner = Scanner(string:newString)
+            let isNumeric = scanner.scanDecimal(nil) && scanner.isAtEnd
+            
+            if isNumeric {
+                var decimalFound = false
+                var charactersAfterDecimal = 0
+                
+                let fmt = NumberFormatter()
+                
+                for ch in newString.characters.reversed() {
+                    if ch == fmt.decimalSeparator.characters.first {
+                        decimalFound = true
+                        break
+                    }
+                    charactersAfterDecimal += 1
+                }
+                if decimalFound && charactersAfterDecimal > fractionDigits {
+                    return false
+                }
+                else {
+                    return true
+                }
+            }
+            else {
+                return false
+            }
+        }
+        else {
+            return true
+        }
     }
 }

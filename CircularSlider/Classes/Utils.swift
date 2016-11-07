@@ -16,61 +16,66 @@ extension Float {
         return String(format: "%\(f)f", self)
     }
     
-    func formatForCurrency() -> String {
+    func formatWithFractionDigits(_ fractionDigits: Int) -> String {
         
         let fmt = NumberFormatter()
         fmt.numberStyle = .decimal
-        fmt.decimalSeparator = ","
-        fmt.maximumFractionDigits = 2
-        fmt.minimumFractionDigits = 2
+        fmt.maximumFractionDigits = fractionDigits
+        fmt.minimumFractionDigits = fractionDigits
         
-        guard let numberString = fmt.string(from: NSNumber(value: self)) else { return "" }
-        
-        let decimalString = numberString.substring(from: (numberString.characters.index(numberString.endIndex, offsetBy: -3)))
-        let integerString = numberString.substring(to: (numberString.characters.index(numberString.endIndex, offsetBy: -3)))
-        let outputNumber = integerString.replacingOccurrences(of: ",", with: ".")
-        
-        return outputNumber + decimalString
+        return  fmt.string(from: NSNumber(value: self)) ?? ""
     }
 }
 
 
 extension String {
     
-    func toFloat(_ localeIdentifier: String? = "it_IT") -> Float {
-        let locale = localeIdentifier == nil ? Locale.current : Locale(identifier: localeIdentifier!)
-        let cf = NumberFormatter()
-        cf.locale = locale
-        cf.numberStyle = .decimal
-        cf.maximumFractionDigits = 2
-        cf.roundingMode = .down
-        let t = self.replacingOccurrences(of: ",", with: cf.decimalSeparator)
-        return cf.number(from: t)?.floatValue ?? 0
+    func toFloat(_ localeIdentifier: String? = nil) -> Float {
+        let locale = localeIdentifier != nil ?  Locale(identifier: localeIdentifier!) : Locale.current
+        
+        let fmt = NumberFormatter()
+        fmt.locale = locale
+        fmt.numberStyle = .decimal
+        fmt.maximumFractionDigits = 2
+        fmt.roundingMode = .down
+        
+        return fmt.number(from: self)?.floatValue ?? 0
     }
     
     func sliderAttributeString(intFont: UIFont, decimalFont: UIFont) -> NSAttributedString {
         guard self != "" else { return NSAttributedString(string: "") }
         
-        let currencyAttributeString = NSMutableAttributedString()
-        let interaString = substring(with: startIndex..<characters.index(startIndex, offsetBy: characters.count - 2))
-        let decimaleString = substring(with: characters.index(startIndex, offsetBy: characters.count - 2)..<characters.index(startIndex, offsetBy: characters.count - 0)) + " "
+        let locale = Locale.current
+        let fmt = NumberFormatter()
+        fmt.locale = locale
         
-        let intera = NSMutableAttributedString(string: interaString)
-        let decimale = NSMutableAttributedString(string: decimaleString)
+        let numberComponents = components(separatedBy: fmt.decimalSeparator)
+        
+        let attributeString = NSMutableAttributedString()
+        var integerStr = numberComponents[0]
+        
+        var decimalStr = ""
+        if numberComponents.count > 1 {
+            integerStr += fmt.decimalSeparator
+            decimalStr =  numberComponents[1]
+        }
+        
+        let integer = NSMutableAttributedString(string: integerStr)
+        let decimal = NSMutableAttributedString(string: decimalStr)
         
         // add attributes
         if #available(iOS 8.2, *) {
-            intera.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 42, weight: UIFontWeightRegular)], range: NSMakeRange(0, intera.length))
-            decimale.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 42, weight: UIFontWeightThin)], range: NSMakeRange(0, decimale.length))
+            integer.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 42, weight: UIFontWeightRegular)], range: NSMakeRange(0, integer.length))
+            decimal.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 42, weight: UIFontWeightThin)], range: NSMakeRange(0, decimal.length))
         } else {
-            intera.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 42)], range: NSMakeRange(0, intera.length))
-            decimale.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 42)], range: NSMakeRange(0, decimale.length))
+            integer.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 42)], range: NSMakeRange(0, integer.length))
+            decimal.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 42)], range: NSMakeRange(0, decimal.length))
         }
         
         
-        currencyAttributeString.append(intera)
-        currencyAttributeString.append(decimale)
+        attributeString.append(integer)
+        attributeString.append(decimal)
         
-        return currencyAttributeString
+        return attributeString
     }
 }
