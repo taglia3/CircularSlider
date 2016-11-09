@@ -454,7 +454,7 @@ extension CircularSlider: UITextFieldDelegate {
         if newString.characters.count > 0 {
             
             let fmt = NumberFormatter()
-            let scanner: Scanner = Scanner(string:newString.replacingOccurrences(of: customDecimalSeparator ?? "", with: fmt.decimalSeparator))
+            let scanner: Scanner = Scanner(string:newString.replacingOccurrences(of: customDecimalSeparator ?? fmt.decimalSeparator, with: "."))
             let isNumeric = scanner.scanDecimal(nil) && scanner.isAtEnd
             
             if isNumeric {

@@ -1,5 +1,5 @@
 PODS:
-  - CircularSlider (1.1.1)
+  - CircularSlider (1.1.2)
 
 DEPENDENCIES:
   - CircularSlider (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  CircularSlider: b265315c5fd8b297b060a59f4a7c79df0f7cc0d7
+  CircularSlider: 1cf6077267868f8542711ea0bc52d9493b112de2
 
 PODFILE CHECKSUM: 9635fee135fb9ce98539deacb26b1b036b2a8cb3
 
