@@ -158,12 +158,26 @@ open class CircularSlider: UIView {
         }
     }
     @IBInspectable
+    open var hideLabels: Bool = false {
+        didSet {
+            setLabelsHidden(self.hideLabels)
+        }
+    }
+    @IBInspectable
     open var fractionDigits: NSInteger {
         get {
             return backingFractionDigits
         }
         set {
             backingFractionDigits = min(maxFractionDigits, max(0, newValue))
+        }
+    }
+    @IBInspectable
+    open var customDecimalSeparator: String? = nil {
+        didSet {
+            if let c = self.customDecimalSeparator, c.characters.count > 1 {
+                self.customDecimalSeparator = nil
+            }
         }
     }
     
@@ -356,12 +370,16 @@ open class CircularSlider: UIView {
         backingKnobAngle = knobAngle
     }
     
+    fileprivate func setLabelsHidden(_ isHidden: Bool) {
+        centeredView.isHidden = isHidden
+    }
+    
     fileprivate func updateLabels() {
         updateValueLabel()
     }
     
     fileprivate func updateValueLabel() {
-        textfield.attributedText = value.formatWithFractionDigits(fractionDigits).sliderAttributeString(intFont: intFont, decimalFont: decimalFont)
+        textfield.attributedText = value.formatWithFractionDigits(fractionDigits, customDecimalSeparator: customDecimalSeparator).sliderAttributeString(intFont: intFont, decimalFont: decimalFont, customDecimalSeparator: customDecimalSeparator )
     }
     
     
@@ -435,14 +453,15 @@ extension CircularSlider: UITextFieldDelegate {
         
         if newString.characters.count > 0 {
             
-            let scanner: Scanner = Scanner(string:newString)
+            let fmt = NumberFormatter()
+            let scanner: Scanner = Scanner(string:newString.replacingOccurrences(of: customDecimalSeparator ?? "", with: fmt.decimalSeparator))
             let isNumeric = scanner.scanDecimal(nil) && scanner.isAtEnd
             
             if isNumeric {
                 var decimalFound = false
                 var charactersAfterDecimal = 0
                 
-                let fmt = NumberFormatter()
+                
                 
                 for ch in newString.characters.reversed() {
                     if ch == fmt.decimalSeparator.characters.first {
