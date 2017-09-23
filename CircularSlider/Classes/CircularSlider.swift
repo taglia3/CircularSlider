@@ -212,7 +212,11 @@ open class CircularSlider: UIView {
     
     // MARK: - drawing methods
     override open func draw(_ rect: CGRect) {
-        print("drawRect")
+        
+        #if arch(i386) || arch(x86_64)
+            print("drawRect")
+        #endif
+        
         backgroundCircleLayer.bounds = bounds
         progressCircleLayer.bounds = bounds
         knobLayer.bounds = bounds
