@@ -14,6 +14,7 @@ import UIKit
     @objc optional func circularSlider(_ circularSlider: CircularSlider, valueForValue value: Float) -> Float
     @objc optional func circularSlider(_ circularSlider: CircularSlider, didBeginEditing textfield: UITextField)
     @objc optional func circularSlider(_ circularSlider: CircularSlider, didEndEditing textfield: UITextField)
+    @objc optional func circularSlider(_ circularSlider: CircularSlider, didEndWithValue value: Float)
     //  optional func circularSlider(circularSlider: CircularSlider, attributeTextForValue value: Float) -> NSAttributedString
 }
 
@@ -406,6 +407,9 @@ open class CircularSlider: UIView {
         guard abs(Double(rotationAngle - knobAngle)) < M_PI_2 else { return }
         
         let valueForAngle = Float(rotationAngle - startAngle) / Float(angleRange) * valueRange + minimumValue
+        if gesture.state == UIGestureRecognizerState.ended {
+            delegate?.circularSlider?(self, didEndWithValue: valueForAngle)
+        }
         setValue(valueForAngle, animated: false)
     }
     
