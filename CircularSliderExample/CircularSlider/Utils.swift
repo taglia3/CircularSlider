@@ -18,21 +18,17 @@ extension Float {
     
     func formatForCurrency() -> String {
         
-    let fmt = NSNumberFormatter()
-    
-    fmt.numberStyle = .DecimalStyle
-    fmt.decimalSeparator = ","
-    fmt.maximumFractionDigits = 2
-    fmt.minimumFractionDigits = 2
-    
-    let numberString = fmt.stringFromNumber(self)
-    
-    let decimalString = numberString?.substringFromIndex((numberString?.endIndex.advancedBy(-3))!)
-    let integerString = numberString?.substringToIndex((numberString?.endIndex.advancedBy(-3))!)
-    
-    let outputNumber = integerString?.stringByReplacingOccurrencesOfString(",", withString: ".")
-    
-    return outputNumber! + decimalString!
+        let fmt = NumberFormatter()
+        
+        fmt.numberStyle = .decimal
+        fmt.decimalSeparator = ","
+        fmt.maximumFractionDigits = 2
+        fmt.minimumFractionDigits = 2
+        
+        let numberString = fmt.string(from: NSNumber(value: self))
+        let splitedString = numberString?.split(separator: ",")
+        
+        return "\(splitedString?.first ?? "0").\(splitedString?.last ?? "0")"
     }
 }
 
@@ -40,44 +36,47 @@ extension Float {
 extension String {
     
     func toFloat(localeIdentifier: String? = "it_IT") -> Float {
-        let locale = localeIdentifier == nil ? NSLocale.currentLocale() : NSLocale(localeIdentifier: localeIdentifier!)
-        let cf = NSNumberFormatter()
+        let locale = localeIdentifier == nil ? NSLocale.current : NSLocale(localeIdentifier: localeIdentifier!) as Locale
+        let cf = NumberFormatter()
         cf.locale = locale
-        cf.numberStyle = .DecimalStyle
+        cf.numberStyle = .decimal
         cf.maximumFractionDigits = 2
-        cf.roundingMode = .RoundDown
-        let t = self.stringByReplacingOccurrencesOfString(",", withString: cf.decimalSeparator)
-        return cf.numberFromString(t)?.floatValue ?? 0
+        cf.roundingMode = .down
+        let t = self.replacingOccurrences(of: ",", with: cf.decimalSeparator)
+        return cf.number(from: t)?.floatValue ?? 0
     }
     
     func trim() -> String {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return self.trimmStringwhitespaceCharacterSet()
     }
     
     func trimmStringwhitespaceCharacterSet() -> String {
-        let trimmedString = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        
+        let trimmedString =
+            self.trimmStringwhitespaceCharacterSet()
         return trimmedString
     }
     
-    func sliderAttributeString(intFont intFont: UIFont, decimalFont: UIFont) -> NSAttributedString {
+    func sliderAttributeString(intFont: UIFont, decimalFont: UIFont) -> NSAttributedString {
         guard self != "" else { return NSAttributedString(string: "") }
         
         let currencyAttributeString = NSMutableAttributedString()
-        let interaString = substringWithRange(startIndex..<startIndex.advancedBy(characters.count - 2))
-        let decimaleString = substringWithRange(startIndex.advancedBy(characters.count - 2)..<startIndex.advancedBy(characters.count - 0)) + " "
         
-        let intera = NSMutableAttributedString(string: interaString)
-        let decimale = NSMutableAttributedString(string: decimaleString)
+        let splitedString = "\(self)".split(separator: ".")
+  
+        let interaString = splitedString.first
+        let decimaleString = splitedString.last
+        
+        let intera = NSMutableAttributedString(string: "\(interaString ?? "0").")
+        let decimale = NSMutableAttributedString(string: "\(decimaleString ?? "0")")
         
         // add attributes
         if #available(iOS 8.2, *) {
-            intera.addAttributes([NSFontAttributeName: UIFont.systemFontOfSize(42, weight: UIFontWeightRegular)], range: NSMakeRange(0, intera.length))
-            decimale.addAttributes([NSFontAttributeName: UIFont.systemFontOfSize(42, weight: UIFontWeightThin)], range: NSMakeRange(0, decimale.length))
+            intera.addAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 42, weight: UIFont.Weight.regular)], range: NSMakeRange(0, intera.length))
+            decimale.addAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 42, weight: UIFont.Weight.thin)], range: NSMakeRange(0, decimale.length))
         } else { }
         
-        currencyAttributeString.appendAttributedString(intera)
-        currencyAttributeString.appendAttributedString(decimale)
+        currencyAttributeString.append(intera)
+        currencyAttributeString.append(decimale)
         
         return currencyAttributeString
     }
