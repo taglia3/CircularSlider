@@ -24,18 +24,18 @@ class ViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
-    func hideKeyboard() {
+    @objc func hideKeyboard() {
         view.endEditing(true)
     }
     
     @IBAction func decrementAction(sender: UIButton) {
         let currentValue = circularSlider.value
-        circularSlider.setValue(currentValue - 50, animated: true)
+        circularSlider.setValue(value: currentValue - 50, animated: true)
     }
     
     @IBAction func incrementAction(sender: UIButton) {
         let currentValue = circularSlider.value
-        circularSlider.setValue(currentValue + 50, animated: true)
+        circularSlider.setValue(value: currentValue + 50, animated: true)
     }
 }
 
