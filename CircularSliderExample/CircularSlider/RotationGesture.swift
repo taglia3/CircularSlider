@@ -27,30 +27,30 @@ public class RotationGestureRecognizer: UIPanGestureRecognizer {
         configure()
     }
     
-    override public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
-        super.touchesBegan(touches, withEvent: event)
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesBegan(touches, with: event)
         
-        if isInsideRing(touches) {
+        if isInsideRing(touches: touches) {
             valid = true
-            updateRotationWithTouches(touches)
+            updateRotationWithTouches(touches: touches)
         } else {
             valid = false
             cancel()
         }
     }
     
-    override public func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
-        super.touchesMoved(touches, withEvent: event)
+    override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesMoved(touches, with: event)
         guard valid == true else {
             cancel()
             return
         }
-        updateRotationWithTouches(touches)
+        updateRotationWithTouches(touches: touches)
     }
     
     func updateRotationWithTouches(touches: Set<NSObject>) {
         if let touch = touches[touches.startIndex] as? UITouch {
-            rotation = rotationForLocation(touch.locationInView(view))
+            rotation = rotationForLocation(location: touch.location(in: view))
         }
     }
     
@@ -64,7 +64,7 @@ public class RotationGestureRecognizer: UIPanGestureRecognizer {
     
     private func isInsideRing(touches: Set<NSObject>) -> Bool{
         guard let touch = touches[touches.startIndex] as? UITouch else { return false }
-        let location = touch.locationInView(view)
+        let location = touch.location(in: view)
         
         let outerRadius = arcRadius + knobRadius * (1 + tollerance)
         let innerRadius = arcRadius - knobRadius * (1 + tollerance)
@@ -80,7 +80,7 @@ public class RotationGestureRecognizer: UIPanGestureRecognizer {
     }
     
     func cancel() {
-        enabled = false
-        enabled = true
+        isEnabled = false
+        isEnabled = true
     }
 }

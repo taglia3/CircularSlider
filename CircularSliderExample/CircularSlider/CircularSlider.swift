@@ -14,10 +14,10 @@ public enum CircularSliderType: Int {
 }
 
 @objc public protocol CircularSliderDelegate: NSObjectProtocol {
-    optional func circularSlider(circularSlider: CircularSlider, valueForValue value: Float) -> Float
+    @objc optional func circularSlider(circularSlider: CircularSlider, valueForValue value: Float) -> Float
 //    optional func circularSlider(circularSlider: CircularSlider, attributeTextForValue value: Float) -> NSAttributedString
-    optional func circularSlider(circularSlider: CircularSlider, didBeginEditing textfield: UITextField)
-    optional func circularSlider(circularSlider: CircularSlider, didEndEditing textfield: UITextField)
+    @objc optional func circularSlider(circularSlider: CircularSlider, didBeginEditing textfield: UITextField)
+    @objc optional func circularSlider(circularSlider: CircularSlider, didEndEditing textfield: UITextField)
 }
 
 
@@ -48,10 +48,10 @@ public class CircularSlider: UIView {
     private var backingKnobAngle: CGFloat = 0
     private var backingtype: CircularSliderType = .normal
     private var startAngle: CGFloat {
-        return -CGFloat(M_PI_2) + radiansOffset
+        return -CGFloat(Double.pi/2) + radiansOffset
     }
     private var endAngle: CGFloat {
-        return 3 * CGFloat(M_PI_2) - radiansOffset
+        return 3 * CGFloat(Double.pi/2) - radiansOffset
     }
     private var angleRange: CGFloat {
         return endAngle - startAngle
@@ -60,10 +60,10 @@ public class CircularSlider: UIView {
         return maximumValue - minimumValue
     }
     private var arcCenter: CGPoint {
-        return CGPointMake(CGRectGetWidth(frame) / 2, CGRectGetHeight(frame) / 2)
+        return CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
     }
     private var arcRadius: CGFloat {
-        return min(CGRectGetWidth(frame),CGRectGetHeight(frame)) / 2 - lineWidth / 2
+        return min(frame.size.width, frame.size.height) / 2 - lineWidth / 2
     }
     private var normalizedValue: Float {
         return (value - minimumValue) / (maximumValue - minimumValue)
@@ -72,7 +72,7 @@ public class CircularSlider: UIView {
         return CGFloat(normalizedValue) * angleRange + startAngle
     }
     private var knobMidAngle: CGFloat {
-        return (2 * CGFloat(M_PI) + startAngle - endAngle) / 2 + endAngle
+        return (2 * CGFloat(Double.pi) + startAngle - endAngle) / 2 + endAngle
     }
     private var knobRotationTransform: CATransform3D {
         return CATransform3DMakeRotation(knobAngle, 0.0, 0.0, 1)
@@ -82,17 +82,17 @@ public class CircularSlider: UIView {
             appearanceValue()
         }
     }
-    private var intFont = UIFont.systemFontOfSize(42, weight: UIFontWeightRegular) {
+    private var intFont = UIFont.systemFont(ofSize: 42, weight: UIFont.Weight.regular) {
         didSet {
             appearanceValue()
         }
     }
-    private var decimalFont = UIFont.systemFontOfSize(42, weight: UIFontWeightThin) {
+    private var decimalFont = UIFont.systemFont(ofSize: 42, weight: UIFont.Weight.thin) {
         didSet {
             appearanceValue()
         }
     }
-    private var divisaFont = UIFont.systemFontOfSize(26, weight: UIFontWeightThin) {
+    private var divisaFont = UIFont.systemFont(ofSize: 26, weight: UIFont.Weight.thin) {
         didSet {
             appearanceDivisa()
         }
@@ -153,19 +153,19 @@ public class CircularSlider: UIView {
         }
     }
     @IBInspectable
-    public var bgColor: UIColor = UIColor.lightGrayColor() {
+    public var bgColor: UIColor = UIColor.lightGray {
         didSet {
             appearanceBackgroundLayer()
         }
     }
     @IBInspectable
-    public var pgNormalColor: UIColor = UIColor.darkGrayColor() {
+    public var pgNormalColor: UIColor = UIColor.darkGray {
         didSet {
             appearanceProgressLayer()
         }
     }
     @IBInspectable
-    public var pgHighlightedColor: UIColor = UIColor.greenColor() {
+    public var pgHighlightedColor: UIColor = UIColor.green {
         didSet {
             appearanceProgressLayer()
         }
@@ -201,27 +201,27 @@ public class CircularSlider: UIView {
     private func xibSetup() {
         containerView = loadViewFromNib()
         containerView.frame = bounds
-        containerView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+        containerView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         addSubview(containerView)
     }
     
     private func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass: self.dynamicType)
+        let bundle = Bundle(for: CircularSlider.self)
         let nib = UINib(nibName: nibName, bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil).first as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
         return view
     }
     
     
     // MARK: - drawing methods
-    override public func drawRect(rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         print("drawRect")
         backgroundCircleLayer.path = getCirclePath()
         progressCircleLayer.path = getCirclePath()
         knobLayer.path = getKnobPath()
         appearanceIconImageView()
         appearanceTimeLabel()
-        setValue(value, animated: false)
+        setValue(value: value, animated: false)
     }
     
     private func getCirclePath() -> CGPath {
@@ -229,12 +229,15 @@ public class CircularSlider: UIView {
                             radius: arcRadius,
                             startAngle: startAngle,
                             endAngle: endAngle,
-                            clockwise: true).CGPath
+                            clockwise: true).cgPath
     }
     
     private func getKnobPath() -> CGPath {
-        return UIBezierPath(roundedRect: CGRectMake(arcCenter.x + arcRadius - knobRadius / 2, arcCenter.y - knobRadius / 2, knobRadius, knobRadius),
-                            cornerRadius: knobRadius / 2).CGPath
+        return UIBezierPath(roundedRect: CGRect(x: arcCenter.x + arcRadius - knobRadius / 2,
+                                                y: arcCenter.y - knobRadius / 2,
+                                                width: knobRadius,
+                                                height: knobRadius),
+                            cornerRadius: knobRadius / 2).cgPath
     }
     
     
@@ -273,7 +276,10 @@ public class CircularSlider: UIView {
     }
     
     private func configureGesture() {
-        let gesture = RotationGestureRecognizer(target: self, action: #selector(handleRotationGesture(_:)), arcRadius: arcRadius, knobRadius:  knobRadius)
+        let gesture = RotationGestureRecognizer(target: self,
+                                                action: #selector(handleRotationGesture(sender:)),
+                                                arcRadius: arcRadius,
+                                                knobRadius:  knobRadius)
         addGestureRecognizer(gesture)
     }
     
@@ -287,19 +293,19 @@ public class CircularSlider: UIView {
     }
     
     private func configureNormalType() {
-        codeView.hidden = true
-        timeLabel.hidden = true
-        normalView.hidden = false
-        knobLayer.hidden = false
-        iconImageView.hidden = false
+        codeView.isHidden = true
+        timeLabel.isHidden = true
+        normalView.isHidden = false
+        knobLayer.isHidden = false
+        iconImageView.isHidden = false
     }
     
     private func configureTimerType() {
-        codeView.hidden = false
-        timeLabel.hidden = false
-        normalView.hidden = true
-        knobLayer.hidden = true
-        iconImageView.hidden = true
+        codeView.isHidden = false
+        timeLabel.isHidden = false
+        normalView.isHidden = true
+        knobLayer.isHidden = true
+        iconImageView.isHidden = true
     }
     
     // MARK: - appearance
@@ -313,22 +319,22 @@ public class CircularSlider: UIView {
     
     private func appearanceBackgroundLayer() {
         backgroundCircleLayer.lineWidth = lineWidth
-        backgroundCircleLayer.fillColor = UIColor.clearColor().CGColor
-        backgroundCircleLayer.strokeColor = bgColor.CGColor
+        backgroundCircleLayer.fillColor = UIColor.clear.cgColor
+        backgroundCircleLayer.strokeColor = bgColor.cgColor
         backgroundCircleLayer.lineCap = kCALineCapRound
     }
     
     private func appearanceProgressLayer() {
         progressCircleLayer.lineWidth = lineWidth
-        progressCircleLayer.fillColor = UIColor.clearColor().CGColor
-        progressCircleLayer.strokeColor = highlighted ? pgHighlightedColor.CGColor : pgNormalColor.CGColor
+        progressCircleLayer.fillColor = UIColor.clear.cgColor
+        progressCircleLayer.strokeColor = highlighted ? pgHighlightedColor.cgColor : pgNormalColor.cgColor
         progressCircleLayer.lineCap = kCALineCapRound
     }
     
     private func appearanceKnobLayer() {
         knobLayer.lineWidth = 2
-        knobLayer.fillColor = highlighted ? pgHighlightedColor.CGColor : pgNormalColor.CGColor
-        knobLayer.strokeColor = UIColor.whiteColor().CGColor
+        knobLayer.fillColor = highlighted ? pgHighlightedColor.cgColor : pgNormalColor.cgColor
+        knobLayer.strokeColor = UIColor.white.cgColor
     }
     
     private func appearanceValue() {
@@ -343,7 +349,7 @@ public class CircularSlider: UIView {
     
     // MARK: - update
     public func setValue(value: Float, animated: Bool) {
-        self.value = delegate?.circularSlider?(self, valueForValue: value) ?? value
+        self.value = delegate?.circularSlider!(circularSlider: self, valueForValue: value) ?? value
         
         updateLabels()
         
@@ -351,7 +357,7 @@ public class CircularSlider: UIView {
         setKnobRotation(animated: animated)
     }
     
-    private func setStrokeEnd(animated animated: Bool) {
+    private func setStrokeEnd(animated: Bool) {
         
         CATransaction.begin()
         CATransaction.setDisableActions(true)
@@ -361,22 +367,22 @@ public class CircularSlider: UIView {
         strokeAnimation.repeatCount = 1
         strokeAnimation.fromValue = progressCircleLayer.strokeEnd
         strokeAnimation.toValue = CGFloat(normalizedValue)
-        strokeAnimation.removedOnCompletion = false
+        strokeAnimation.isRemovedOnCompletion = false
         strokeAnimation.fillMode = kCAFillModeRemoved
         strokeAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        progressCircleLayer.addAnimation(strokeAnimation, forKey: "strokeAnimation")
+        progressCircleLayer.add(strokeAnimation, forKey: "strokeAnimation")
         progressCircleLayer.strokeEnd = CGFloat(normalizedValue)
         CATransaction.commit()
     }
 
-    private func setKnobRotation(animated animated: Bool) {
+    private func setKnobRotation(animated: Bool) {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         animation.duration = animated ? 0.66 : 0
         animation.values = [backingKnobAngle, knobAngle]
-        knobLayer.addAnimation(animation, forKey: "knobRotationAnimation")
+        knobLayer.add(animation, forKey: "knobRotationAnimation")
         knobLayer.transform = knobRotationTransform
         CATransaction.commit()
         backingKnobAngle = knobAngle
@@ -398,26 +404,26 @@ public class CircularSlider: UIView {
     
     // MARK: - gesture handler
     @objc private func handleRotationGesture(sender: AnyObject) {
-        guard let gesture = sender as? RotationGestureRecognizer where backingtype == .normal else { return }
+        guard let gesture = sender as? RotationGestureRecognizer, backingtype == .normal else { return }
         
-        if gesture.state == UIGestureRecognizerState.Began {
+        if gesture.state == UIGestureRecognizerState.began {
             cancelAnimation()
         }
         
         var rotationAngle = gesture.rotation
         if rotationAngle > knobMidAngle {
-            rotationAngle -= 2 * CGFloat(M_PI)
-        } else if rotationAngle < (knobMidAngle - 2 * CGFloat(M_PI)) {
-            rotationAngle += 2 * CGFloat(M_PI)
+            rotationAngle -= 2 * CGFloat(Double.pi)
+        } else if rotationAngle < (knobMidAngle - 2 * CGFloat(Double.pi)) {
+            rotationAngle += 2 * CGFloat(Double.pi)
         }
         rotationAngle = min(endAngle, max(startAngle, rotationAngle))
         
-        guard abs(Double(rotationAngle - knobAngle)) < M_PI_2 else { return }
+        guard abs(Double(rotationAngle - knobAngle)) < Double.pi / 2 else { return }
         
         let valueForAngle = Float(rotationAngle - startAngle) / Float(angleRange) * valueRange + minimumValue
-        setValue(valueForAngle, animated: false)
+        setValue(value: valueForAngle, animated: false)
         
-        if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
+        if gesture.state == UIGestureRecognizerState.ended || gesture.state == UIGestureRecognizerState.cancelled {
             // isPanning -> false
         }
     }
@@ -431,17 +437,17 @@ public class CircularSlider: UIView {
 
 extension CircularSlider: UITextFieldDelegate {
     
-    public func textFieldDidBeginEditing(textField: UITextField) {
-        delegate?.circularSlider?(self, didBeginEditing: textfield)
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        delegate?.circularSlider?(circularSlider: self, didBeginEditing: textField)
     }
     
-    public func textFieldDidEndEditing(textField: UITextField) {
-        delegate?.circularSlider?(self, didEndEditing: textfield)
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        delegate?.circularSlider?(circularSlider: self, didEndEditing: textField)
         layoutIfNeeded()
-        setValue(textfield.text!.toFloat(nil), animated: true)
+        setValue(value: textfield.text!.toFloat(localeIdentifier: nil), animated: true)
     }
     
-    public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return true
     }
 }
