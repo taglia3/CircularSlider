@@ -136,12 +136,14 @@ open class CircularSlider: UIView {
     open var pgNormalColor: UIColor = UIColor.darkGray {
         didSet {
             appearanceProgressLayer()
+            appearanceKnobLayer()
         }
     }
     @IBInspectable
     open var pgHighlightedColor: UIColor = UIColor.green {
         didSet {
             appearanceProgressLayer()
+            appearanceKnobLayer()
         }
     }
     @IBInspectable
