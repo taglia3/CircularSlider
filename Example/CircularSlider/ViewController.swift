@@ -38,8 +38,8 @@ class ViewController: UIViewController {
     
     // MARK: - keyboard handler
     fileprivate func registerForKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil )
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil )
     }
     
     @objc fileprivate func keyboardWillShow(_ notification: Notification) {
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
     }
     
     fileprivate func adjustInsetForKeyboardShow(_ show: Bool, notification: Notification) {
-        guard let value = (notification as NSNotification).userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue else { return }
+        guard let value = (notification as NSNotification).userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else { return }
         let keyboardFrame = value.cgRectValue
         let adjustmentHeight = (keyboardFrame.height + 150) * (show ? 1 : -1)
         scrollView.contentInset.bottom += adjustmentHeight
