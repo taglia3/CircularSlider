@@ -48,10 +48,10 @@ open class CircularSlider: UIView {
     fileprivate var backingFractionDigits: NSInteger = 2
     fileprivate let maxFractionDigits: NSInteger = 4
     fileprivate var startAngle: CGFloat {
-        return -CGFloat(M_PI_2) + radiansOffset
+        return -.pi + radiansOffset
     }
     fileprivate var endAngle: CGFloat {
-        return 3 * CGFloat(M_PI_2) - radiansOffset
+        return 3 * .pi - radiansOffset
     }
     fileprivate var angleRange: CGFloat {
         return endAngle - startAngle
@@ -72,7 +72,7 @@ open class CircularSlider: UIView {
         return CGFloat(normalizedValue) * angleRange + startAngle
     }
     fileprivate var knobMidAngle: CGFloat {
-        return (2 * CGFloat(M_PI) + startAngle - endAngle) / 2 + endAngle
+        return (2 * .pi + startAngle - endAngle) / 2 + endAngle
     }
     fileprivate var knobRotationTransform: CATransform3D {
         return CATransform3DMakeRotation(knobAngle, 0.0, 0.0, 1)
@@ -175,7 +175,7 @@ open class CircularSlider: UIView {
     @IBInspectable
     open var customDecimalSeparator: String? = nil {
         didSet {
-            if let c = self.customDecimalSeparator, c.characters.count > 1 {
+            if let c = self.customDecimalSeparator, c.count > 1 {
                 self.customDecimalSeparator = nil
             }
         }
@@ -393,13 +393,13 @@ open class CircularSlider: UIView {
         
         var rotationAngle = gesture.rotation
         if rotationAngle > knobMidAngle {
-            rotationAngle -= 2 * CGFloat(M_PI)
-        } else if rotationAngle < (knobMidAngle - 2 * CGFloat(M_PI)) {
-            rotationAngle += 2 * CGFloat(M_PI)
+            rotationAngle -= 2 * .pi
+        } else if rotationAngle < (knobMidAngle - 2 * .pi) {
+            rotationAngle += 2 * .pi
         }
         rotationAngle = min(endAngle, max(startAngle, rotationAngle))
         
-        guard abs(Double(rotationAngle - knobAngle)) < M_PI_2 else { return }
+        guard abs(Double(rotationAngle - knobAngle)) < .pi else { return }
         
         let valueForAngle = Float(rotationAngle - startAngle) / Float(angleRange) * valueRange + minimumValue
         setValue(valueForAngle, animated: false)
@@ -451,7 +451,7 @@ extension CircularSlider: UITextFieldDelegate {
         
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         
-        if newString.characters.count > 0 {
+        if newString.count > 0 {
             
             let fmt = NumberFormatter()
             let scanner: Scanner = Scanner(string:newString.replacingOccurrences(of: customDecimalSeparator ?? fmt.decimalSeparator, with: "."))
@@ -463,8 +463,8 @@ extension CircularSlider: UITextFieldDelegate {
                 
                 
                 
-                for ch in newString.characters.reversed() {
-                    if ch == fmt.decimalSeparator.characters.first {
+                for ch in newString.reversed() {
+                    if ch == fmt.decimalSeparator.first {
                         decimalFound = true
                         break
                     }
