@@ -48,10 +48,10 @@ open class CircularSlider: UIView {
     fileprivate var backingFractionDigits: NSInteger = 2
     fileprivate let maxFractionDigits: NSInteger = 4
     fileprivate var startAngle: CGFloat {
-        return -CGFloat(M_PI_2) + radiansOffset
+        return -.pi + radiansOffset
     }
     fileprivate var endAngle: CGFloat {
-        return 3 * CGFloat(M_PI_2) - radiansOffset
+        return 3 * .pi - radiansOffset
     }
     fileprivate var angleRange: CGFloat {
         return endAngle - startAngle
@@ -72,7 +72,7 @@ open class CircularSlider: UIView {
         return CGFloat(normalizedValue) * angleRange + startAngle
     }
     fileprivate var knobMidAngle: CGFloat {
-        return (2 * CGFloat(M_PI) + startAngle - endAngle) / 2 + endAngle
+        return (2 * .pi + startAngle - endAngle) / 2 + endAngle
     }
     fileprivate var knobRotationTransform: CATransform3D {
         return CATransform3DMakeRotation(knobAngle, 0.0, 0.0, 1)
@@ -175,7 +175,7 @@ open class CircularSlider: UIView {
     @IBInspectable
     open var customDecimalSeparator: String? = nil {
         didSet {
-            if let c = self.customDecimalSeparator, c.characters.count > 1 {
+            if let c = self.customDecimalSeparator, c.count > 1 {
                 self.customDecimalSeparator = nil
             }
         }
@@ -198,7 +198,7 @@ open class CircularSlider: UIView {
     fileprivate func xibSetup() {
         containerView = loadViewFromNib()
         containerView.frame = bounds
-        containerView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        containerView.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
         addSubview(containerView)
     }
     
@@ -289,9 +289,9 @@ open class CircularSlider: UIView {
     
     fileprivate func configureFont() {
         if #available(iOS 8.2, *) {
-            intFont = UIFont.systemFont(ofSize: 42, weight: UIFontWeightRegular)
-            decimalFont = UIFont.systemFont(ofSize: 42, weight: UIFontWeightThin)
-            divisaFont = UIFont.systemFont(ofSize: 26, weight: UIFontWeightThin)
+            intFont = UIFont.systemFont(ofSize: 42, weight: UIFont.Weight.regular)
+            decimalFont = UIFont.systemFont(ofSize: 42, weight: UIFont.Weight.thin)
+            divisaFont = UIFont.systemFont(ofSize: 26, weight: UIFont.Weight.thin)
         }
     }
     
@@ -305,14 +305,14 @@ open class CircularSlider: UIView {
         backgroundCircleLayer.lineWidth = lineWidth
         backgroundCircleLayer.fillColor = UIColor.clear.cgColor
         backgroundCircleLayer.strokeColor = bgColor.cgColor
-        backgroundCircleLayer.lineCap = kCALineCapRound
+        backgroundCircleLayer.lineCap = CAShapeLayerLineCap.round
     }
     
     fileprivate func appearanceProgressLayer() {
         progressCircleLayer.lineWidth = lineWidth
         progressCircleLayer.fillColor = UIColor.clear.cgColor
         progressCircleLayer.strokeColor = highlighted ? pgHighlightedColor.cgColor : pgNormalColor.cgColor
-        progressCircleLayer.lineCap = kCALineCapRound
+        progressCircleLayer.lineCap = CAShapeLayerLineCap.round
     }
     
     fileprivate func appearanceKnobLayer() {
@@ -348,8 +348,8 @@ open class CircularSlider: UIView {
         strokeAnimation.fromValue = progressCircleLayer.strokeEnd
         strokeAnimation.toValue = CGFloat(normalizedValue)
         strokeAnimation.isRemovedOnCompletion = false
-        strokeAnimation.fillMode = kCAFillModeRemoved
-        strokeAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        strokeAnimation.fillMode = CAMediaTimingFillMode.removed
+        strokeAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         progressCircleLayer.add(strokeAnimation, forKey: "strokeAnimation")
         progressCircleLayer.strokeEnd = CGFloat(normalizedValue)
         CATransaction.commit()
@@ -387,19 +387,19 @@ open class CircularSlider: UIView {
     @objc fileprivate func handleRotationGesture(_ sender: AnyObject) {
         guard let gesture = sender as? RotationGestureRecognizer else { return }
         
-        if gesture.state == UIGestureRecognizerState.began {
+        if gesture.state == UIGestureRecognizer.State.began {
             cancelAnimation()
         }
         
         var rotationAngle = gesture.rotation
         if rotationAngle > knobMidAngle {
-            rotationAngle -= 2 * CGFloat(M_PI)
-        } else if rotationAngle < (knobMidAngle - 2 * CGFloat(M_PI)) {
-            rotationAngle += 2 * CGFloat(M_PI)
+            rotationAngle -= 2 * .pi
+        } else if rotationAngle < (knobMidAngle - 2 * .pi) {
+            rotationAngle += 2 * .pi
         }
         rotationAngle = min(endAngle, max(startAngle, rotationAngle))
         
-        guard abs(Double(rotationAngle - knobAngle)) < M_PI_2 else { return }
+        guard abs(Double(rotationAngle - knobAngle)) < .pi else { return }
         
         let valueForAngle = Float(rotationAngle - startAngle) / Float(angleRange) * valueRange + minimumValue
         setValue(valueForAngle, animated: false)
@@ -422,8 +422,8 @@ open class CircularSlider: UIView {
     
     fileprivate func addDoneButtonOnKeyboard() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let doneButton: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(resignFirstResponder))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let doneButton: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(resignFirstResponder))
         
         doneToolbar.barStyle = UIBarStyle.default
         doneToolbar.items = [flexSpace, doneButton]
@@ -451,7 +451,7 @@ extension CircularSlider: UITextFieldDelegate {
         
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         
-        if newString.characters.count > 0 {
+        if newString.count > 0 {
             
             let fmt = NumberFormatter()
             let scanner: Scanner = Scanner(string:newString.replacingOccurrences(of: customDecimalSeparator ?? fmt.decimalSeparator, with: "."))
@@ -463,8 +463,8 @@ extension CircularSlider: UITextFieldDelegate {
                 
                 
                 
-                for ch in newString.characters.reversed() {
-                    if ch == fmt.decimalSeparator.characters.first {
+                for ch in newString.reversed() {
+                    if ch == fmt.decimalSeparator.first {
                         decimalFound = true
                         break
                     }
